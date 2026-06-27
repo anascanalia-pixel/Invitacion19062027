@@ -22,7 +22,7 @@ function showSlide(index) {
 
     setTimeout(() => {
       next.classList.remove("turning-in");
-    }, 750);
+    }, 1050);
   }, 260);
 }
 
