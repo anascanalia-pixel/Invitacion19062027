@@ -583,3 +583,12 @@ button,input,select,textarea{
 #slide5 .next{
   z-index:3000 !important;
 }
+/* FIX BOTÓN SIGUIENTE SLIDE 5 */
+#slide5 .next{
+  top:90.8% !important;
+  left:26% !important;
+  width:48% !important;
+  height:7.2% !important;
+  z-index:9999 !important;
+  pointer-events:auto !important;
+}

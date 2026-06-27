@@ -300,4 +300,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  /* FIX DEFINITIVO BOTÓN SIGUIENTE SLIDE 5 */
+const nextSlide5 = document.querySelector("#slide5 .next");
+
+if (nextSlide5) {
+  nextSlide5.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!validateSlide5()) {
+      showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
+      return;
+    }
+
+    showSlide(5);
+  }, true);
+}
 });
