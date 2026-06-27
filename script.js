@@ -6,109 +6,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showSlide(index) {
     if (index < 0 || index >= slides.length) return;
-
     slides[currentSlide].classList.remove("active");
     currentSlide = index;
     slides[currentSlide].classList.add("active");
-
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function showMessage(title, text) {
     const modal = document.getElementById("successModal");
-    const modalTitle = modal ? modal.querySelector("h2") : null;
-    const modalText = modal ? modal.querySelector("p") : null;
+    if (!modal) return;
 
-    if (!modal || !modalTitle || !modalText) return;
+    const h2 = modal.querySelector("h2");
+    const p = modal.querySelector("p");
 
-    modalTitle.textContent = title;
-    modalText.textContent = text;
+    if (h2) h2.textContent = title;
+    if (p) p.textContent = text;
+
     modal.classList.add("show");
   }
-
-  /* Navegación */
-  const startButton = document.getElementById("startButton");
-
-  if (startButton) {
-    startButton.addEventListener("click", () => {
-      showSlide(1);
-    });
-  }
-
-  document.querySelectorAll(".next").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      const activeSlide = document.querySelector(".slide.active");
-
-      if (activeSlide && activeSlide.id === "slide5") {
-        if (!validateSlide5()) {
-          showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
-          return;
-        }
-      }
-
-      showSlide(currentSlide + 1);
-    });
-  });
-
-  document.querySelectorAll(".back-button").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      showSlide(currentSlide - 1);
-    });
-  });
-
-  const slide4Card = document.querySelector("#slide4 .slide-card");
-
-  if (slide4Card) {
-    slide4Card.addEventListener("click", () => {
-      showSlide(4);
-    });
-  }
-
-  /* Selects slide 5 */
-  document.querySelectorAll("#slide5 select").forEach((select) => {
-    select.classList.toggle("has-value", Boolean(select.value));
-
-    select.addEventListener("change", () => {
-      select.classList.toggle("has-value", Boolean(select.value));
-    });
-  });
-
-  /* Niños slide 5 */
-  const kidsButtons = document.querySelectorAll("#slide5 .kids-btn");
-  const kidsHidden = document.getElementById("ninos");
-  const kidsCount = document.getElementById("cuantosNinos");
-
-  kidsButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      kidsButtons.forEach((btn) => {
-        btn.classList.remove("active");
-        btn.setAttribute("aria-pressed", "false");
-      });
-
-      button.classList.add("active");
-      button.setAttribute("aria-pressed", "true");
-
-      const value = button.dataset.value;
-
-      if (kidsHidden) {
-        kidsHidden.value = value;
-      }
-
-      if (kidsCount) {
-        if (value === "Sí") {
-          kidsCount.disabled = false;
-        } else {
-          kidsCount.value = "";
-          kidsCount.classList.remove("has-value");
-          kidsCount.disabled = true;
-        }
-      }
-    });
-  });
 
   function getValue(id) {
     const el = document.getElementById(id);
@@ -135,10 +50,91 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  /* Límite de palabras */
+  /* NAVEGACIÓN */
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (target.id === "startButton") {
+      event.preventDefault();
+      showSlide(1);
+      return;
+    }
+
+    if (target.classList.contains("back-button")) {
+      event.preventDefault();
+      showSlide(currentSlide - 1);
+      return;
+    }
+
+    if (target.classList.contains("next")) {
+      event.preventDefault();
+
+      const activeSlide = document.querySelector(".slide.active");
+
+      if (activeSlide && activeSlide.id === "slide5") {
+        if (!validateSlide5()) {
+          showMessage("Falta información", "Te ha faltado algún campo sin cumplimentar.");
+          return;
+        }
+      }
+
+      showSlide(currentSlide + 1);
+    }
+  });
+
+  /* REFUERZO SLIDE 4 */
+
+  const slide4Card = document.querySelector("#slide4 .slide-card");
+  if (slide4Card) {
+    slide4Card.addEventListener("click", () => {
+      showSlide(4);
+    });
+  }
+
+  /* SELECTS */
+
+  document.querySelectorAll("#slide5 select").forEach((select) => {
+    select.addEventListener("change", () => {
+      select.classList.toggle("has-value", Boolean(select.value));
+    });
+  });
+
+  /* NIÑOS */
+
+  const kidsButtons = document.querySelectorAll("#slide5 .kids-btn");
+  const kidsHidden = document.getElementById("ninos");
+  const kidsCount = document.getElementById("cuantosNinos");
+
+  kidsButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      kidsButtons.forEach((btn) => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("active");
+      button.setAttribute("aria-pressed", "true");
+
+      const value = button.dataset.value;
+
+      if (kidsHidden) kidsHidden.value = value;
+
+      if (kidsCount) {
+        if (value === "Sí") {
+          kidsCount.disabled = false;
+        } else {
+          kidsCount.value = "";
+          kidsCount.disabled = true;
+        }
+      }
+    });
+  });
+
+  /* LÍMITE PALABRAS */
+
   function limitWords(element, maxWords) {
     const words = element.value.trim().split(/\s+/).filter(Boolean);
-
     if (words.length > maxWords) {
       element.value = words.slice(0, maxWords).join(" ");
     }
@@ -148,20 +144,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const contactoTextarea = document.getElementById("contacto");
 
   if (nombreInput) {
-    nombreInput.addEventListener("input", () => {
-      limitWords(nombreInput, 20);
-    });
+    nombreInput.addEventListener("input", () => limitWords(nombreInput, 20));
   }
 
   if (contactoTextarea) {
-    contactoTextarea.addEventListener("input", () => {
-      limitWords(contactoTextarea, 100);
-    });
+    contactoTextarea.addEventListener("input", () => limitWords(contactoTextarea, 100));
   }
 
-  /* Cómo llegar */
-  const mapButton = document.getElementById("mapButton");
+  /* CÓMO LLEGAR */
 
+  const mapButton = document.getElementById("mapButton");
   if (mapButton) {
     mapButton.addEventListener("click", () => {
       window.open(
@@ -171,9 +163,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* Añadir al calendario */
-  const calendarButton = document.getElementById("calendarButton");
+  /* CALENDARIO */
 
+  const calendarButton = document.getElementById("calendarButton");
   if (calendarButton) {
     calendarButton.addEventListener("click", () => {
       const url =
@@ -187,11 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* Cuenta atrás */
+  /* CUENTA ATRÁS */
+
   function updateCountdown() {
     const target = new Date("2027-06-19T18:00:00+02:00");
-    const now = new Date();
-    const diff = target - now;
+    const diff = target - new Date();
     const countdown = document.getElementById("countdown");
 
     if (!countdown) return;
@@ -214,7 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  /* Música */
+  /* MÚSICA */
+
   const musicToggle = document.getElementById("musicToggle");
   const bgMusic = document.getElementById("bgMusic");
 
@@ -234,14 +227,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* Enviar respuesta */
+  /* ENVIAR RESPUESTA */
+
   const sendButton = document.getElementById("send");
 
   if (sendButton) {
     sendButton.addEventListener("click", async () => {
       if (!validateSlide5()) {
         showSlide(4);
-        showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
+        showMessage("Falta información", "Te ha faltado algún campo sin cumplimentar.");
         return;
       }
 
@@ -266,9 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         await fetch(WEB_APP_URL, {
           method: "POST",
           mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
 
@@ -276,8 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("respuestaBoda", JSON.stringify(data));
 
         showMessage("¡Gracias!", "Tu respuesta se ha enviado.");
-
-      } catch (error) {
+      } catch {
         showMessage("Error", "No se ha podido enviar la respuesta. Inténtalo de nuevo.");
       } finally {
         sendButton.disabled = false;
@@ -285,11 +276,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* Cerrar mensajes */
+  /* CERRAR MODAL */
+
   const successModal = document.getElementById("successModal");
   const closeSuccess = document.getElementById("closeSuccess");
 
-  if (closeSuccess && successModal) {
+  if (successModal && closeSuccess) {
     closeSuccess.addEventListener("click", () => {
       successModal.classList.remove("show");
     });
@@ -300,20 +292,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  /* FIX DEFINITIVO BOTÓN SIGUIENTE SLIDE 5 */
-const nextSlide5 = document.querySelector("#slide5 .next");
-
-if (nextSlide5) {
-  nextSlide5.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (!validateSlide5()) {
-      showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
-      return;
-    }
-
-    showSlide(5);
-  }, true);
-}
 });
