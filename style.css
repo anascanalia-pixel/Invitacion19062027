@@ -408,3 +408,15 @@ button,input,select,textarea{
   content:"" !important;
   margin-top:4px !important;
 }
+/* Evitar fondo blanco del autocompletado del navegador */
+#slide5 input:-webkit-autofill,
+#slide5 input:-webkit-autofill:hover,
+#slide5 input:-webkit-autofill:focus,
+#slide5 textarea:-webkit-autofill,
+#slide5 textarea:-webkit-autofill:hover,
+#slide5 textarea:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color:#3a2a14 !important;
+  transition:background-color 9999s ease-in-out 0s !important;
+  background:transparent !important;
+}
