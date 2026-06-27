@@ -592,3 +592,35 @@ button,input,select,textarea{
   z-index:9999 !important;
   pointer-events:auto !important;
 }
+/* EFECTO PASO DE PERGAMINO ENTRE SLIDES */
+
+.slide-card{
+  transition:
+    transform .45s ease,
+    opacity .45s ease,
+    filter .45s ease;
+  transform-origin:center right;
+}
+
+.slide.turning-out .slide-card{
+  transform:rotateY(-10deg) scale(.98);
+  opacity:.15;
+  filter:blur(1px);
+}
+
+.slide.turning-in .slide-card{
+  animation:pageIn .45s ease both;
+}
+
+@keyframes pageIn{
+  from{
+    transform:rotateY(10deg) scale(.98);
+    opacity:.15;
+    filter:blur(1px);
+  }
+  to{
+    transform:rotateY(0) scale(1);
+    opacity:1;
+    filter:blur(0);
+  }
+}

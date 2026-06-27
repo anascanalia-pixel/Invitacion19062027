@@ -4,13 +4,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const slides = document.querySelectorAll(".slide");
   let currentSlide = 0;
 
-  function showSlide(index) {
-    if (index < 0 || index >= slides.length) return;
-    slides[currentSlide].classList.remove("active");
+function showSlide(index) {
+  if (index < 0 || index >= slides.length || index === currentSlide) return;
+
+  const current = slides[currentSlide];
+  const next = slides[index];
+
+  current.classList.add("turning-out");
+
+  setTimeout(() => {
+    current.classList.remove("active", "turning-out");
+
     currentSlide = index;
-    slides[currentSlide].classList.add("active");
+    next.classList.add("active", "turning-in");
+
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+
+    setTimeout(() => {
+      next.classList.remove("turning-in");
+    }, 450);
+  }, 260);
+}
 
   function showMessage(title, text) {
     const modal = document.getElementById("successModal");
