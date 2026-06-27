@@ -274,7 +274,7 @@ async function playMusic() {
     musicToggle.innerHTML = "🎼";
     musicToggle.setAttribute("aria-label", "Apagar música");
 
-    fadeAudio(0.15, 2000);
+    fadeAudio(0.15, 3000);
   } catch {
     showMessage("Música", "Pulsa el icono de música para activarla.");
   }
@@ -369,4 +369,23 @@ if (musicToggle && bgMusic) {
       }
     });
   }
+  /* VISOR ZOOM DIAPOSITIVAS */
+
+const zoomButton = document.getElementById("zoomButton");
+const zoomModal = document.getElementById("zoomModal");
+const zoomImage = document.getElementById("zoomImage");
+const closeZoom = document.getElementById("closeZoom");
+
+if (zoomButton && zoomModal && zoomImage && closeZoom) {
+  zoomButton.addEventListener("click", () => {
+    const slideNumber = currentSlide + 1;
+    zoomImage.src = `img/slide${slideNumber}.png`;
+    zoomModal.classList.add("show");
+  });
+
+  closeZoom.addEventListener("click", () => {
+    zoomModal.classList.remove("show");
+    zoomImage.src = "";
+  });
+}
 });
