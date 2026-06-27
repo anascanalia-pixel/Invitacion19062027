@@ -592,35 +592,50 @@ button,input,select,textarea{
   z-index:9999 !important;
   pointer-events:auto !important;
 }
-/* EFECTO PASO DE PERGAMINO ENTRE SLIDES */
+/* EFECTO PERGAMINO DESPLEGÁNDOSE */
 
 .slide-card{
-  transition:
-    transform .45s ease,
-    opacity .45s ease,
-    filter .45s ease;
-  transform-origin:center right;
+  transform-origin:top center;
+  backface-visibility:hidden;
 }
 
 .slide.turning-out .slide-card{
-  transform:rotateY(-10deg) scale(.98);
-  opacity:.15;
-  filter:blur(1px);
+  animation:scrollOut .38s ease forwards;
 }
 
 .slide.turning-in .slide-card{
-  animation:pageIn .45s ease both;
+  animation:scrollIn .75s cubic-bezier(.22,.8,.25,1) forwards;
 }
 
-@keyframes pageIn{
+@keyframes scrollOut{
   from{
-    transform:rotateY(10deg) scale(.98);
-    opacity:.15;
-    filter:blur(1px);
+    opacity:1;
+    transform:scaleY(1);
+    filter:brightness(1);
   }
   to{
-    transform:rotateY(0) scale(1);
+    opacity:0;
+    transform:scaleY(.86) translateY(-18px);
+    filter:brightness(.85);
+  }
+}
+
+@keyframes scrollIn{
+  0%{
+    opacity:0;
+    transform:scaleY(.08) translateY(-42px);
+    clip-path:inset(0 0 92% 0 round 28px);
+    filter:brightness(1.08);
+  }
+  45%{
     opacity:1;
-    filter:blur(0);
+    transform:scaleY(.62) translateY(-14px);
+    clip-path:inset(0 0 35% 0 round 28px);
+  }
+  100%{
+    opacity:1;
+    transform:scaleY(1) translateY(0);
+    clip-path:inset(0 0 0 0 round 28px);
+    filter:brightness(1);
   }
 }
