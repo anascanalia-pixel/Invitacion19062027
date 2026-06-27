@@ -26,9 +26,13 @@ document.querySelectorAll(".next").forEach((button) => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
 
-    if (currentSlide === 4 && !validarFormulario()) {
-      alert("Por favor, completa todos los campos antes de continuar.");
-      return;
+    const slideActiva = document.querySelector(".slide.active");
+
+    if (slideActiva && slideActiva.id === "slide5") {
+      if (!validarFormulario()) {
+        alert("Te has dejado algún campo sin cumplimentar.");
+        return;
+      }
     }
 
     showSlide(currentSlide + 1);
