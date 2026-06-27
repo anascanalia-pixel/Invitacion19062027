@@ -22,12 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll(".next").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      showSlide(currentSlide + 1);
-    });
+document.querySelectorAll(".next").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    if (currentSlide === 4 && !validarFormulario()) {
+      alert("Por favor, completa todos los campos antes de continuar.");
+      return;
+    }
+
+    showSlide(currentSlide + 1);
   });
+});
 
   document.querySelectorAll(".back-button").forEach((button) => {
     button.addEventListener("click", (event) => {
@@ -82,6 +88,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  function validarFormulario() {
+  const nombre = document.getElementById("nombre").value.trim();
+  const adultos = document.getElementById("personas").value;
+  const ninos = document.getElementById("ninos").value;
+  const numNinos = document.getElementById("cuantosNinos").value;
+  const alergias = document.getElementById("alergias").value.trim();
+  const bus = document.getElementById("bus").value;
+  const contacto = document.getElementById("contacto").value.trim();
+
+  if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
+    return false;
+  }
+
+  if (ninos === "Sí" && !numNinos) {
+    return false;
+  }
+
+  return true;
+}
 
   function limitWords(element, maxWords) {
     const words = element.value.trim().split(/\s+/).filter(Boolean);
