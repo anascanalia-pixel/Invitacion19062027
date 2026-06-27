@@ -525,3 +525,19 @@ button,input,select,textarea{
         opacity:1;
     }
 }
+#nombre{
+  display:block !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+  background:transparent !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+}
+
+#nombre::-webkit-search-decoration,
+#nombre::-webkit-search-cancel-button,
+#nombre::-webkit-search-results-button,
+#nombre::-webkit-search-results-decoration{
+  display:none !important;
+}

@@ -138,15 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const nombreVisual = document.getElementById("nombreVisual");
-  const nombreHidden = document.getElementById("nombre");
-
-  if (nombreVisual && nombreHidden) {
-    nombreVisual.addEventListener("input", () => {
-      nombreHidden.value = nombreVisual.textContent.trim();
-    });
-  }
-
   const mapButton = document.getElementById("mapButton");
 
   if (mapButton) {
