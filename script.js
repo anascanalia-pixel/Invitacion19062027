@@ -14,6 +14,19 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function showMessage(title, text) {
+    const modal = document.getElementById("successModal");
+    const modalTitle = modal ? modal.querySelector("h2") : null;
+    const modalText = modal ? modal.querySelector("p") : null;
+
+    if (!modal || !modalTitle || !modalText) return;
+
+    modalTitle.textContent = title;
+    modalText.textContent = text;
+    modal.classList.add("show");
+  }
+
+  /* Navegación */
   const startButton = document.getElementById("startButton");
 
   if (startButton) {
@@ -26,11 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     button.addEventListener("click", (event) => {
       event.preventDefault();
 
-      const slideActiva = document.querySelector(".slide.active");
+      const activeSlide = document.querySelector(".slide.active");
 
-      if (slideActiva && slideActiva.id === "slide5") {
-        if (!validarFormulario()) {
-          alert("Te has dejado algún campo sin cumplimentar.");
+      if (activeSlide && activeSlide.id === "slide5") {
+        if (!validateSlide5()) {
+          showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
           return;
         }
       }
@@ -55,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* Selects slide 5 */
   document.querySelectorAll("#slide5 select").forEach((select) => {
     select.classList.toggle("has-value", Boolean(select.value));
 
@@ -63,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* Niños slide 5 */
   const kidsButtons = document.querySelectorAll("#slide5 .kids-btn");
   const kidsHidden = document.getElementById("ninos");
   const kidsCount = document.getElementById("cuantosNinos");
@@ -95,26 +110,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function validarFormulario() {
-    const nombre = document.getElementById("nombre").value.trim();
-    const adultos = document.getElementById("personas").value;
-    const ninos = document.getElementById("ninos").value;
-    const numNinos = document.getElementById("cuantosNinos").value;
-    const alergias = document.getElementById("alergias").value.trim();
-    const bus = document.getElementById("bus").value;
-    const contacto = document.getElementById("contacto").value.trim();
+  function getValue(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  }
 
-    if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
-      return false;
-    }
+  function validateSlide5() {
+    const nombre = getValue("nombre");
+    const adultos = getValue("personas");
+    const ninos = getValue("ninos");
+    const numNinos = getValue("cuantosNinos");
+    const alergias = getValue("alergias");
+    const bus = getValue("bus");
+    const contacto = getValue("contacto");
 
-    if (ninos === "Sí" && !numNinos) {
-      return false;
-    }
+    if (!nombre) return false;
+    if (!adultos) return false;
+    if (!ninos) return false;
+    if (ninos === "Sí" && !numNinos) return false;
+    if (!alergias) return false;
+    if (!bus) return false;
+    if (!contacto) return false;
 
     return true;
   }
 
+  /* Límite de palabras */
   function limitWords(element, maxWords) {
     const words = element.value.trim().split(/\s+/).filter(Boolean);
 
@@ -138,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* Cómo llegar */
   const mapButton = document.getElementById("mapButton");
 
   if (mapButton) {
@@ -149,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* Añadir al calendario */
   const calendarButton = document.getElementById("calendarButton");
 
   if (calendarButton) {
@@ -164,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* Cuenta atrás */
   function updateCountdown() {
     const target = new Date("2027-06-19T18:00:00+02:00");
     const now = new Date();
@@ -190,6 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
+  /* Música */
   const musicToggle = document.getElementById("musicToggle");
   const bgMusic = document.getElementById("bgMusic");
 
@@ -200,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
           await bgMusic.play();
           musicToggle.textContent = "Ⅱ";
         } catch {
-          alert("La música se activará cuando añadamos el archivo de audio.");
+          showMessage("Música", "La música se activará cuando añadamos el archivo de audio.");
         }
       } else {
         bgMusic.pause();
@@ -209,15 +234,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /* Enviar respuesta */
   const sendButton = document.getElementById("send");
 
   if (sendButton) {
     sendButton.addEventListener("click", async () => {
-      const nombre = document.getElementById("nombre").value.trim();
-
-      if (!validarFormulario()) {
+      if (!validateSlide5()) {
         showSlide(4);
-        alert("Te has dejado algún campo sin cumplimentar.");
+        showMessage("Falta información", "Te has dejado algún campo sin cumplimentar.");
         return;
       }
 
@@ -227,13 +251,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = {
         idInvitado: idGuardado,
-        nombre: nombre,
-        adultos: document.getElementById("personas").value,
-        ninos: document.getElementById("ninos").value,
-        numNinos: document.getElementById("cuantosNinos").value,
-        alergias: document.getElementById("alergias").value,
-        bus: document.getElementById("bus").value,
-        contacto: document.getElementById("contacto").value
+        nombre: getValue("nombre"),
+        adultos: getValue("personas"),
+        ninos: getValue("ninos"),
+        numNinos: getValue("cuantosNinos"),
+        alergias: getValue("alergias"),
+        bus: getValue("bus"),
+        contacto: getValue("contacto")
       };
 
       try {
@@ -251,16 +275,17 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("idInvitado", idGuardado);
         localStorage.setItem("respuestaBoda", JSON.stringify(data));
 
-        document.getElementById("successModal").classList.add("show");
+        showMessage("¡Gracias!", "Tu respuesta se ha enviado.");
 
       } catch (error) {
-        alert("No se ha podido enviar la respuesta. Inténtalo de nuevo.");
+        showMessage("Error", "No se ha podido enviar la respuesta. Inténtalo de nuevo.");
       } finally {
         sendButton.disabled = false;
       }
     });
   }
 
+  /* Cerrar mensajes */
   const successModal = document.getElementById("successModal");
   const closeSuccess = document.getElementById("closeSuccess");
 
