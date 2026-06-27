@@ -541,3 +541,24 @@ button,input,select,textarea{
 #nombre::-webkit-search-results-decoration{
   display:none !important;
 }
+/* FIX móvil - Nombre y apellidos clicable */
+#nombre{
+  z-index:5000 !important;
+  pointer-events:auto !important;
+  position:absolute !important;
+  display:block !important;
+  opacity:1 !important;
+  background:transparent !important;
+  color:#3a2a14 !important;
+  caret-color:#3a2a14 !important;
+  touch-action:auto !important;
+}
+
+#slide5 form{
+  z-index:4000 !important;
+  pointer-events:auto !important;
+}
+
+#slide5 .next{
+  z-index:3000 !important;
+}
