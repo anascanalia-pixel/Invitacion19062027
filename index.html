@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Ana & Miguel | 19·06·2027</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+<div id="app">
+
+  <section class="slide active" id="slide1">
+    <button class="music-toggle" id="musicToggle" type="button" aria-label="Activar música">♪</button>
+    <div class="slide-card">
+      <button id="startButton" class="hotspot" type="button" aria-label="Pulsa para comenzar el viaje"></button>
+    </div>
+  </section>
+
+  <section class="slide" id="slide2">
+    <button class="back-button" type="button" aria-label="Volver">←</button>
+    <div class="slide-card">
+      <button class="next hotspot" type="button" aria-label="Descubrir más"></button>
+    </div>
+  </section>
+
+  <section class="slide" id="slide3">
+    <button class="back-button" type="button" aria-label="Volver">←</button>
+    <div class="slide-card">
+      <button class="next hotspot" type="button" aria-label="Siguiente"></button>
+    </div>
+  </section>
+
+  <section class="slide" id="slide4">
+    <button class="back-button" type="button" aria-label="Volver">←</button>
+    <div class="slide-card">
+      <button class="next hotspot" type="button" aria-label="Confirmar asistencia"></button>
+    </div>
+  </section>
+
+  <section class="slide" id="slide5">
+    <button class="back-button" type="button" aria-label="Volver">←</button>
+
+    <div class="slide-card form-container">
+      <form id="rsvp" autocomplete="on">
+
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          autocomplete="name"
+          aria-label="Nombre y apellidos"
+          required
+        />
+
+        <select id="personas" name="personas" aria-label="Cuántas personas asistiréis" required>
+          <option value="" selected>Selecciona</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+
+        <button type="button" class="kids-btn" data-value="Sí" aria-label="Sí vienen niños" aria-pressed="false">Sí</button>
+
+        <button type="button" class="kids-btn active" data-value="No" aria-label="No vienen niños" aria-pressed="true">No</button>
+
+        <input type="hidden" id="ninos" name="ninos" value="No" />
+
+        <select id="cuantosNinos" name="cuantosNinos" aria-label="Cuántos niños" disabled>
+          <option value="" selected>Selecciona</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+
+        <textarea
+          id="alergias"
+          name="alergias"
+          aria-label="Alergia o intolerancia alimentaria"
+        ></textarea>
+
+        <select id="bus" name="bus" aria-label="Uso del autobús">
+          <option value="" selected>Selecciona una opción</option>
+          <option value="No necesitaría">No necesitaría</option>
+          <option value="A la ida">A la ida</option>
+          <option value="A la vuelta">A la vuelta</option>
+          <option value="A la ida y vuelta">A la ida y vuelta</option>
+        </select>
+
+        <textarea
+          id="contacto"
+          name="contacto"
+          maxlength="700"
+          data-max-words="100"
+          aria-label="Contacto y observaciones"
+        ></textarea>
+
+      </form>
+
+      <button class="next hotspot" type="button" aria-label="Siguiente"></button>
+    </div>
+  </section>
+
+  <section class="slide" id="slide6">
+    <button class="back-button" type="button" aria-label="Volver">←</button>
+
+    <div class="slide-card">
+      <button id="mapButton" class="hotspot final-hotspot" type="button" aria-label="Cómo llegar"></button>
+      <button id="calendarButton" class="hotspot final-hotspot" type="button" aria-label="Añadir al calendario"></button>
+      <button id="countdownButton" class="hotspot final-hotspot" type="button" aria-label="Cuenta atrás">
+        <span id="countdown"></span>
+      </button>
+      <button id="send" class="hotspot final-hotspot" type="button" aria-label="Enviar respuesta"></button>
+    </div>
+  </section>
+
+</div>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="./audio/musica.mp3" type="audio/mpeg" />
+</audio>
+
+<script src="./script.js"></script>
+</body>
+</html>
