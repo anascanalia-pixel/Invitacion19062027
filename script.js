@@ -182,12 +182,24 @@ document.addEventListener("DOMContentLoaded", () => {
   if (sendButton) {
     sendButton.addEventListener("click", async () => {
       const nombre = document.getElementById("nombre").value.trim();
+const adultos = document.getElementById("personas").value;
+const ninos = document.getElementById("ninos").value;
+const numNinos = document.getElementById("cuantosNinos").value;
+const alergias = document.getElementById("alergias").value.trim();
+const bus = document.getElementById("bus").value;
+const contacto = document.getElementById("contacto").value.trim();
 
-      if (!nombre) {
-        showSlide(4);
-        alert("Por favor, escribe tu nombre y apellidos antes de enviar.");
-        return;
-      }
+if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
+  showSlide(4);
+  alert("Por favor, completa todos los campos antes de enviar tu respuesta.");
+  return;
+}
+
+if (ninos === "Sí" && !numNinos) {
+  showSlide(4);
+  alert("Por favor, indica cuántos niños menores de 11 años vendrán.");
+  return;
+}
 
       const idGuardado =
         localStorage.getItem("idInvitado") ||
