@@ -420,3 +420,108 @@ button,input,select,textarea{
   transition:background-color 9999s ease-in-out 0s !important;
   background:transparent !important;
 }
+#nombre{
+  display:none !important;
+}
+
+#nombreVisual{
+  position:absolute;
+  top:7.3%;
+  left:20.5%;
+  width:59%;
+  height:4.7%;
+  padding:0 1.2%;
+  z-index:80;
+
+  background:transparent;
+  border:0;
+  outline:0;
+  box-shadow:none;
+
+  color:#3a2a14;
+  caret-color:#3a2a14;
+
+  font-family:Georgia,serif;
+  font-style:italic;
+  font-size:15px;
+  line-height:1.2;
+
+  overflow:hidden;
+  white-space:nowrap;
+}
+/* ===== Mensaje de respuesta enviada ===== */
+
+.success-modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    visibility:hidden;
+    transition:.35s;
+    z-index:9999;
+}
+
+.success-modal.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.success-box{
+    width:min(86%,360px);
+    background:#f6e7c6;
+    border:2px solid #8a6a45;
+    border-radius:18px;
+    padding:28px 24px;
+    text-align:center;
+    box-shadow:0 12px 30px rgba(0,0,0,.28);
+    animation:popup .35s ease;
+}
+
+.success-heart{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.success-box h2{
+    font-family:"Great Vibes","Allura",cursive;
+    font-size:38px;
+    color:#6d4725;
+    margin-bottom:12px;
+}
+
+.success-box p{
+    font-family:Georgia,serif;
+    font-size:17px;
+    color:#3d2916;
+    line-height:1.5;
+    margin-bottom:22px;
+}
+
+.success-box button{
+    background:#8c6a46;
+    color:white;
+    border:none;
+    border-radius:30px;
+    padding:10px 34px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.25s;
+}
+
+.success-box button:hover{
+    transform:scale(1.05);
+}
+
+@keyframes popup{
+    from{
+        transform:scale(.85);
+        opacity:0;
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}

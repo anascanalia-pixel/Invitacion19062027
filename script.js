@@ -22,22 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-document.querySelectorAll(".next").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
+  document.querySelectorAll(".next").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
 
-    const slideActiva = document.querySelector(".slide.active");
+      const slideActiva = document.querySelector(".slide.active");
 
-    if (slideActiva && slideActiva.id === "slide5") {
-      if (!validarFormulario()) {
-        alert("Te has dejado algún campo sin cumplimentar.");
-        return;
+      if (slideActiva && slideActiva.id === "slide5") {
+        if (!validarFormulario()) {
+          alert("Te has dejado algún campo sin cumplimentar.");
+          return;
+        }
       }
-    }
 
-    showSlide(currentSlide + 1);
+      showSlide(currentSlide + 1);
+    });
   });
-});
 
   document.querySelectorAll(".back-button").forEach((button) => {
     button.addEventListener("click", (event) => {
@@ -79,7 +79,9 @@ document.querySelectorAll(".next").forEach((button) => {
 
       const value = button.dataset.value;
 
-      if (kidsHidden) kidsHidden.value = value;
+      if (kidsHidden) {
+        kidsHidden.value = value;
+      }
 
       if (kidsCount) {
         if (value === "Sí") {
@@ -94,24 +96,24 @@ document.querySelectorAll(".next").forEach((button) => {
   });
 
   function validarFormulario() {
-  const nombre = document.getElementById("nombre").value.trim();
-  const adultos = document.getElementById("personas").value;
-  const ninos = document.getElementById("ninos").value;
-  const numNinos = document.getElementById("cuantosNinos").value;
-  const alergias = document.getElementById("alergias").value.trim();
-  const bus = document.getElementById("bus").value;
-  const contacto = document.getElementById("contacto").value.trim();
+    const nombre = document.getElementById("nombre").value.trim();
+    const adultos = document.getElementById("personas").value;
+    const ninos = document.getElementById("ninos").value;
+    const numNinos = document.getElementById("cuantosNinos").value;
+    const alergias = document.getElementById("alergias").value.trim();
+    const bus = document.getElementById("bus").value;
+    const contacto = document.getElementById("contacto").value.trim();
 
-  if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
-    return false;
+    if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
+      return false;
+    }
+
+    if (ninos === "Sí" && !numNinos) {
+      return false;
+    }
+
+    return true;
   }
-
-  if (ninos === "Sí" && !numNinos) {
-    return false;
-  }
-
-  return true;
-}
 
   function limitWords(element, maxWords) {
     const words = element.value.trim().split(/\s+/).filter(Boolean);
@@ -133,6 +135,15 @@ document.querySelectorAll(".next").forEach((button) => {
   if (contactoTextarea) {
     contactoTextarea.addEventListener("input", () => {
       limitWords(contactoTextarea, 100);
+    });
+  }
+
+  const nombreVisual = document.getElementById("nombreVisual");
+  const nombreHidden = document.getElementById("nombre");
+
+  if (nombreVisual && nombreHidden) {
+    nombreVisual.addEventListener("input", () => {
+      nombreHidden.value = nombreVisual.textContent.trim();
     });
   }
 
@@ -212,24 +223,12 @@ document.querySelectorAll(".next").forEach((button) => {
   if (sendButton) {
     sendButton.addEventListener("click", async () => {
       const nombre = document.getElementById("nombre").value.trim();
-const adultos = document.getElementById("personas").value;
-const ninos = document.getElementById("ninos").value;
-const numNinos = document.getElementById("cuantosNinos").value;
-const alergias = document.getElementById("alergias").value.trim();
-const bus = document.getElementById("bus").value;
-const contacto = document.getElementById("contacto").value.trim();
 
-if (!nombre || !adultos || !ninos || !alergias || !bus || !contacto) {
-  showSlide(4);
-  alert("Por favor, completa todos los campos antes de enviar tu respuesta.");
-  return;
-}
-
-if (ninos === "Sí" && !numNinos) {
-  showSlide(4);
-  alert("Por favor, indica cuántos niños menores de 11 años vendrán.");
-  return;
-}
+      if (!validarFormulario()) {
+        showSlide(4);
+        alert("Te has dejado algún campo sin cumplimentar.");
+        return;
+      }
 
       const idGuardado =
         localStorage.getItem("idInvitado") ||
@@ -261,7 +260,8 @@ if (ninos === "Sí" && !numNinos) {
         localStorage.setItem("idInvitado", idGuardado);
         localStorage.setItem("respuestaBoda", JSON.stringify(data));
 
-        alert("Gracias. Tu respuesta se ha enviado.");
+        document.getElementById("successModal").classList.add("show");
+
       } catch (error) {
         alert("No se ha podido enviar la respuesta. Inténtalo de nuevo.");
       } finally {
@@ -269,12 +269,19 @@ if (ninos === "Sí" && !numNinos) {
       }
     });
   }
-  const nombreVisual = document.getElementById("nombreVisual");
-const nombreHidden = document.getElementById("nombre");
 
-if (nombreVisual && nombreHidden) {
-  nombreVisual.addEventListener("input", () => {
-    nombreHidden.value = nombreVisual.textContent.trim();
-  });
-}
+  const successModal = document.getElementById("successModal");
+  const closeSuccess = document.getElementById("closeSuccess");
+
+  if (closeSuccess && successModal) {
+    closeSuccess.addEventListener("click", () => {
+      successModal.classList.remove("show");
+    });
+
+    successModal.addEventListener("click", (event) => {
+      if (event.target === successModal) {
+        successModal.classList.remove("show");
+      }
+    });
+  }
 });
