@@ -714,3 +714,53 @@ button,input,select,textarea{
     opacity:0;
   }
 }
+/* ==========================
+   BOTÓN MÚSICA
+========================== */
+
+.music-toggle{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:2px solid rgba(120,92,52,.55);
+
+    background:
+        radial-gradient(circle at 35% 35%,
+        #f5e6bf 0%,
+        #d8b67d 45%,
+        #a7793d 72%,
+        #6d4725 100%);
+
+    color:#5b3b1d;
+    font-size:24px;
+    cursor:pointer;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.25),
+        inset 0 2px 3px rgba(255,255,255,.35);
+
+    transition:
+        transform .25s,
+        box-shadow .25s,
+        filter .25s;
+
+    z-index:9999;
+}
+
+.music-toggle:hover{
+    transform:scale(1.06);
+    filter:brightness(1.05);
+}
+
+.music-toggle.playing{
+    box-shadow:
+        0 0 18px rgba(233,193,121,.45),
+        inset 0 2px 3px rgba(255,255,255,.35);
+}
