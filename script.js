@@ -170,6 +170,47 @@ function showSlide(index) {
     contactoTextarea.addEventListener("input", () => limitWords(contactoTextarea, 100));
   }
 
+  /* RECUPERAR RESPUESTA GUARDADA */
+
+function cargarRespuestaGuardada() {
+  const respuesta = localStorage.getItem("respuestaBoda");
+
+  if (!respuesta) return;
+
+  const data = JSON.parse(respuesta);
+
+  if (data.nombre) document.getElementById("nombre").value = data.nombre;
+  if (data.adultos) document.getElementById("personas").value = data.adultos;
+  if (data.ninos) document.getElementById("ninos").value = data.ninos;
+  if (data.numNinos) document.getElementById("cuantosNinos").value = data.numNinos;
+  if (data.alergias) document.getElementById("alergias").value = data.alergias;
+  if (data.bus) document.getElementById("bus").value = data.bus;
+  if (data.contacto) document.getElementById("contacto").value = data.contacto;
+
+  kidsButtons.forEach((btn) => {
+    btn.classList.remove("active");
+    btn.setAttribute("aria-pressed", "false");
+
+    if (btn.dataset.value === data.ninos) {
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+    }
+  });
+
+  if (data.ninos === "Sí") {
+    kidsCount.disabled = false;
+  } else {
+    kidsCount.disabled = true;
+    kidsCount.value = "";
+  }
+
+  document.querySelectorAll("#slide5 select").forEach((select) => {
+    select.classList.toggle("has-value", Boolean(select.value));
+  });
+}
+
+cargarRespuestaGuardada();
+
   /* CÓMO LLEGAR */
 
   const mapButton = document.getElementById("mapButton");
